@@ -1,17 +1,19 @@
 package ru.netology.carddelivery;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
+import static org.openqa.selenium.devtools.v105.network.Network.clearBrowserCookies;
 
-class  DeliveryTest {
+class DeliveryTest {
 
     private final DataGenerator.UserInfo validUser = DataGenerator.Registration.generateUser("ru");
     private final int daysToAddToFirstDate = 4;
@@ -21,7 +23,11 @@ class  DeliveryTest {
     void setup() {
         open("http://localhost:9999");
     }
-
+    @AfterEach
+    void clear() {
+        clearBrowserCookies();
+        clearBrowserLocalStorage();
+    }
     @Test
     void shouldSuccessfullyScheduleAndRescheduleDate() {
         var daysToAddForSecondMeeting = 7;
@@ -48,8 +54,9 @@ class  DeliveryTest {
                 .shouldHave(text("успешно запланирована на " + secondMeetingDate));
 
     }
+
     @Test
-    void shouldSuccessfullyScheduleAndRescheduleDat() {
+    void shouldFailWithEmptyFields() {
         var daysToAddForSecondMeeting = 7;
         var secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
         $("[data-test-id=city] input").setValue(validUser.getCity());
@@ -77,6 +84,6 @@ class  DeliveryTest {
         $("[data-test-id=name] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id=phone] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $(".button__text").click();
-        $("[data-test-id='city'] .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+        $("[data-test-id='city'] .input__sub").shouldHave(text("Поле обязательно для заполнения"));
     }
 }
