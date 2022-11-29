@@ -12,25 +12,107 @@ public class DataGenerator {
     private DataGenerator() {
     }
 
-    static Faker faker = new Faker((new Locale ("ru")));
-
-    public static String generateDate(int daysToAdd) {
-        return LocalDate.now().plusDays(daysToAdd).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    public static String generateDate(int shift) {
+        return LocalDate.now().plusDays(shift).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    public static String generateCity(String locale) {
-        String[]ArrayCities = {"Москва", "Санкт-Петербург", "Новосибирск", "Сургут", "Казань", "Нижний Новгород",
-                "Владивосток", "Самара", "Челябинск", "Ростов-на-Дону", "Кемерово", "Волгоград"};
-        Random random = new Random();
-        int a = random.nextInt(ArrayCities.length);
-        return ArrayCities[a];
+    public static String generateCity() {
+        var city = new String[]{
+                "Абакан",
+                "Анадырь",
+                "Архангельск",
+                "Астрахань",
+                "Барнаул",
+                "Белгород",
+                "Биробиджан",
+                "Благовещенск",
+                "Брянск",
+                "Великий Новгород",
+                "Владивосток",
+                "Владикавказ",
+                "Владимир",
+                "Волгоград",
+                "Вологда",
+                "Воронеж",
+                "Гатчина",
+                "Горно-Алтайск",
+                "Грозный",
+                "Екатеринбург",
+                "Иваново",
+                "Ижевск",
+                "Иркутск",
+                "Йошкар-Ола",
+                "Казань",
+                "Калининград",
+                "Калуга",
+                "Кемерово",
+                "Киров",
+                "Кострома",
+                "Красногорск",
+                "Краснодар",
+                "Красноярск",
+                "Курган",
+                "Курск",
+                "Кызыл",
+                "Липецк",
+                "Магадан",
+                "Магас",
+                "Майкоп",
+                "Махачкала",
+                "Москва",
+                "Мурманск",
+                "Нальчик",
+                "Нарьян-Мар",
+                "Нижний Новгород",
+                "Новосибирск",
+                "Омск",
+                "Оренбург",
+                "Орёл",
+                "Пенза",
+                "Пермь",
+                "Петрозаводск",
+                "Петропавловск-Камчатский",
+                "Псков",
+                "Ростов-на-Дону",
+                "Рязань",
+                "Салехард",
+                "Самара",
+                "Санкт-Петербург",
+                "Саранск",
+                "Саратов",
+                "Севастополь",
+                "Симферополь",
+                "Смоленск",
+                "Ставрополь",
+                "Сыктывкар",
+                "Тамбов",
+                "Тверь",
+                "Томск",
+                "Тула",
+                "Тюмень",
+                "Улан-Удэ",
+                "Ульяновск",
+                "Уфа",
+                "Хабаровск",
+                "Ханты-Мансийск",
+                "Чебоксары",
+                "Челябинск",
+                "Черкесск",
+                "Чита",
+                "Элиста",
+                "Южно-Сахалинск",
+                "Якутск",
+                "Ярославль"};
+        return city[new Random().nextInt(city.length)];
     }
 
     public static String generateName(String locale) {
-        return faker.name().fullName();
+        var faker = new Faker (new Locale(locale));
+        return faker.name().lastName() + " " + faker.name().firstName();
     }
 
     public static String generatePhone(String locale) {
+        var faker = new Faker (new Locale(locale));
         return faker.phoneNumber().cellPhone();
     }
 
@@ -39,7 +121,8 @@ public class DataGenerator {
         }
 
         public static UserInfo generateUser(String locale) {
-            return new UserInfo(generateCity("ru"), generateName("ru"), generatePhone("ru"));
+            Faker faker = new Faker(new Locale("ru"));
+            return new UserInfo(generateCity(), generateName(locale), generatePhone(locale));
         }
     }
 
