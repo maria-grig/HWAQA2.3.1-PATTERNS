@@ -11,10 +11,9 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-import static org.openqa.selenium.devtools.v105.network.Network.clearBrowserCookies;
+import static com.codeborne.selenide.Selenide.$;
 
-class DeliveryTest {
-
+public class CardDeliveryTest {
     private final DataGenerator.UserInfo validUser = DataGenerator.Registration.generateUser("ru");
     private final int daysToAddToFirstDate = 4;
     private final String firstDeliveryDate = DataGenerator.generateDate(daysToAddToFirstDate);
